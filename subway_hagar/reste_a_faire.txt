@@ -1,0 +1,5 @@
+- Multiples characters possible
+- Different level
+- Multiplayer
+- Use moving enemies/obstacles
+- Different modes

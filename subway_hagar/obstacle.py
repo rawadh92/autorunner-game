@@ -1,0 +1,42 @@
+import pygame
+import random
+
+class Obstacle(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.size = 40
+        self.image = pygame.Surface((self.size, self.size))
+        self.image.fill((0, 0, 0))
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(0, 750)
+        self.rect.y = random.randrange(-600, 0)
+        self.speed = 5
+
+    def update(self):
+        self.rect.y += self.speed
+        if self.rect.y > 600:
+            self.reset()
+
+    def reset(self):
+        self.rect.x = random.randrange(0, 750)
+        self.rect.y = random.randrange(-600, 0)
+
+class BlueObstacle(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.size = 40
+        self.image = pygame.Surface((self.size, self.size))
+        self.image.fill((0, 0, 255))
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(0, 750)
+        self.rect.y = random.randrange(-600, 0)
+        self.speed = 5
+
+    def update(self):
+        self.rect.y += self.speed
+        if self.rect.y > 600:
+            self.reset()
+
+    def reset(self):
+        self.rect.x = random.randrange(0, 750)
+        self.rect.y = random.randrange(-600, 0)
