@@ -77,9 +77,9 @@ class GameParameters:
                         self.score += 10
                         self.blue_coins_owned -= 1
                     else:
-                        show_game_over_screen(self,self.score)
+                        self.show_game_over_screen(self.score)
                 else:
-                    show_game_over_screen(self,self.score)
+                    self.show_game_over_screen(self.score)
 
             # Gestion des collisions avec les pièces
             coins_collected = pygame.sprite.spritecollide(self.player, self.coins_group, True)
@@ -209,8 +209,7 @@ class GameParameters:
                 "Yellow Coins Collected: {}".format(self.yellow_coins_collected),
                 "Blue Coins Collected: {}".format(self.blue_coins_collected),
                 "Blue Obstacles Destroyed: {}".format(self.blue_obstacles_destroyed),
-                "Blue Coins Owned: {}".format(self.blue_coins_owned),
-                # Ajoute d'autres lignes de récapitulatif ici
+                
             ]
 
             for line in recap_lines:

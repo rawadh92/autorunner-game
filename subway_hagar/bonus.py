@@ -26,7 +26,7 @@ class BriseBrick(pygame.sprite.Sprite):
         super().__init__()
         self.size = 30
         self.image = pygame.Surface((self.size, self.size), pygame.SRCALPHA)
-        pygame.draw.rect(self.image, (0, 0, 255), (0, 0, self.size, self.size))
+        pygame.draw.circle(self.image, (0, 0, 255), (self.size // 2, self.size // 2), self.size // 2)
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(0, 750)
         self.rect.y = random.randrange(-600, 0)
