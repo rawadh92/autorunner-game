@@ -14,7 +14,7 @@ class GameParameters:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
         self.FPS = 60                                             # Faut changer le path pour que ça marche (pour vous)
-        self.menu_sound = pygame.mixer.Sound('"C:/Users/Adame/Documents/GitHub/autorunner-game/subway_hagar/drillfr4.mp3"')
+        self.menu_sound = pygame.mixer.Sound('C:/Users/Adame/Documents/GitHub/autorunner-game/subway_hagar/drillfr4.mp3')
         self.menu_background = pygame.image.load(os.path.join("C:/Users/Adame/Documents/GitHub/autorunner-game/subway_hagar/images/menu_background.jpg")).convert()
         # Couleurs
         self.white = (255, 255, 255)
