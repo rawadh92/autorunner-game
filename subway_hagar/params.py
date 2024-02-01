@@ -13,8 +13,8 @@ class GameParameters:
         self.width, self.height = 800, 600
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
-        self.FPS = 60
-        self.menu_background = pygame.image.load(os.path.join("images", "menu_background.jpg")).convert()
+        self.FPS = 60                                             # Faut changer le path pour que ça marche (pour vous)
+        self.menu_background = pygame.image.load(os.path.join("C:/Users/Adame/Documents/GitHub/autorunner-game/subway_hagar/images/menu_background.jpg")).convert()
         # Couleurs
         self.white = (255, 255, 255)
 
@@ -77,13 +77,9 @@ class GameParameters:
                         self.score += 10
                         self.blue_coins_owned -= 1
                     else:
-                        print("Game Over!")
-                        pygame.quit()
-                        sys.exit()
+                        show_game_over_screen(self,self.score)
                 else:
-                    print("Game Over!")
-                    pygame.quit()
-                    sys.exit()
+                    show_game_over_screen(self,self.score)
 
             # Gestion des collisions avec les pièces
             coins_collected = pygame.sprite.spritecollide(self.player, self.coins_group, True)
@@ -97,11 +93,11 @@ class GameParameters:
                     self.blue_coins_owned += 1
 
             # Création d'obstacles
-            if random.randint(0, 100) < 2:
+            if random.randint(0, 200) < 2:
                 self.create_obstacle()
 
             # Création d'obstacles bleus
-            if random.randint(0, 100) < 1:
+            if random.randint(0, 500) < 1:
                 self.create_blue_obstacle()
 
             # Création de pièces
@@ -115,7 +111,7 @@ class GameParameters:
             # Augmentation de la difficulté
             if pygame.time.get_ticks() % 10000 == 0:
                 for obstacle in self.obstacles_group:
-                    obstacle.speed += 3
+                    obstacle.speed += 1
 
             # Dessin
             self.screen.fill(self.white)
@@ -171,9 +167,9 @@ class GameParameters:
                 if pygame.mouse.get_pressed()[0] == 1:
                     self.start_game()
             # Faire la logique pour afficher l'écran des paramètres
-            '''if settings_rect.collidepoint((mx, my)):
+            if settings_rect.collidepoint((mx, my)):
                 if pygame.mouse.get_pressed()[0] == 1:
-                    self.show_settings()'''
+                    self.show_settings()
 
             if quit_rect.collidepoint((mx, my)):
                 if pygame.mouse.get_pressed()[0] == 1:
@@ -198,29 +194,43 @@ class GameParameters:
 
             game_over_text = font.render("Game Over", True, (255, 0, 0))
             self.screen.blit(game_over_text, (self.width/2 - game_over_text.get_width()/2, 50))
-            # Faire la logique pour afficher le meilleur score 
+
             score_text = font.render("Score: {}".format(final_score), True, (255, 255, 255))
             self.screen.blit(score_text, (self.width/2 - score_text.get_width()/2, 150))
 
             recap_text = font.render("Récapitulatif", True, (255, 255, 255))
             self.screen.blit(recap_text, (self.width/2 - recap_text.get_width()/2, 200))
 
-            # Mettre info pour afficher le récapitulatif ici
-            # ...
+            # Affiche le récapitulatif 
+            recap_y = 250
+            recap_spacing = 30
+
+            recap_lines = [
+                "Yellow Coins Collected: {}".format(self.yellow_coins_collected),
+                "Blue Coins Collected: {}".format(self.blue_coins_collected),
+                "Blue Obstacles Destroyed: {}".format(self.blue_obstacles_destroyed),
+                "Blue Coins Owned: {}".format(self.blue_coins_owned),
+                # Ajoute d'autres lignes de récapitulatif ici
+            ]
+
+            for line in recap_lines:
+                line_text = font.render(line, True, (255, 255, 255))
+                self.screen.blit(line_text, (self.width/2 - line_text.get_width()/2, recap_y))
+                recap_y += recap_spacing
 
             restart_text = font.render("Rejouer", True, (0, 255, 0))
-            restart_rect = restart_text.get_rect(center=(self.width/2 - 50, 300))
+            restart_rect = restart_text.get_rect(center=(self.width/2 - 50, recap_y))
             self.screen.blit(restart_text, restart_rect)
 
             quit_text = font.render("Quitter", True, (255, 0, 0))
-            quit_rect = quit_text.get_rect(center=(self.width/2 + 50, 300))
+            quit_rect = quit_text.get_rect(center=(self.width/2 + 50, recap_y))
             self.screen.blit(quit_text, quit_rect)
 
             mx, my = pygame.mouse.get_pos()
 
             if restart_rect.collidepoint((mx, my)):
                 if pygame.mouse.get_pressed()[0] == 1:
-                    # Réinitialiser le jeu
+                    # Réinitialiser complètement le jeu
                     self.reset_game()
                     game_over = False
 
@@ -232,7 +242,59 @@ class GameParameters:
             pygame.display.update()
 
     def reset_game(self):
-        # Logique pour réinitialiser le jeu (réinitialiser le score, la position du joueur, etc.)
-        pass
-           
+        # Réinitialiser les paramètres du jeu à leurs valeurs initiales
+        self.score = 0
+        self.yellow_coins_collected = 0
+        self.blue_coins_collected = 0
+        self.blue_obstacles_destroyed = 0
+        self.blue_coins_owned = 0
+        # Réinitialiser d'autres paramètres selon les besoins (position du joueur, vitesse des obstacles, etc.)
+        # ...
+
+        # Réinitialiser les groupes de sprites
+        self.all_sprites.empty()
+        self.obstacles_group.empty()
+        self.coins_group.empty()
+
+        # Réinitialiser le joueur
+        self.player = Player(self.all_sprites)
+        self.all_sprites.add(self.player)
+        
+        
+    def show_settings(self):
+        settings_screen = True
+
+        while settings_screen:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+        # Afficher l'écran des paramètres
+        self.screen.fill((0, 0, 0))
+        font = pygame.font.Font(None, 36)
+
+        title_text = font.render("Paramètres", True, (255, 255, 255))
+        self.screen.blit(title_text, (self.width/2 - title_text.get_width()/2, 50))
+
+        # Ajouter des options de paramètres ici
+        option_text = font.render("Option 1: Valeur 1", True, (255, 255, 255))
+        self.screen.blit(option_text, (self.width/2 - option_text.get_width()/2, 150))
+
+        option2_text = font.render("Option 2: Valeur 2", True, (255, 255, 255))
+        self.screen.blit(option2_text, (self.width/2 - option2_text.get_width()/2, 200))
+
+        # ... Ajoutez d'autres options de paramètres
+
+        back_text = font.render("Retour", True, (255, 0, 0))
+        back_rect = back_text.get_rect(center=(self.width/2, 300))
+        self.screen.blit(back_text, back_rect)
+
+        mx, my = pygame.mouse.get_pos()
+
+        if back_rect.collidepoint((mx, my)):
+            if pygame.mouse.get_pressed()[0] == 1:
+                settings_screen = False
+
+        pygame.display.update()
     
