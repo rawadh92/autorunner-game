@@ -13,7 +13,7 @@ class GameParameters:
         self.width, self.height = 800, 600
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
-        self.FPS = 144                                            # Faut changer le path pour que ça marche (pour vous)
+        self.FPS = 60                                            # Faut changer le path pour que ça marche (pour vous)
         self.menu_sound = pygame.mixer.Sound(r'C:\Users\Adame\Documents\GitHub\autorunner-game\subway_hagar\drillfr4.mp3')
         self.menu_background = pygame.image.load(os.path.join(r"C:\Users\Adame\Documents\GitHub\autorunner-game\subway_hagar\images\menu_background.jpg")).convert()
         pygame_icon = pygame.image.load(r'C:\Users\Adame\Documents\GitHub\autorunner-game\subway_hagar\images\icon.jpg')
