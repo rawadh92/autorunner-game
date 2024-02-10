@@ -14,9 +14,9 @@ class GameParameters:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
         self.FPS = 60                                            # Faut changer le path pour que ça marche (pour vous)
-        self.menu_sound = pygame.mixer.Sound(r'C:\Users\Adame\Documents\GitHub\autorunner-game\subway_hagar\drillfr4.mp3')
-        self.menu_background = pygame.image.load(os.path.join(r"C:\Users\Adame\Documents\GitHub\autorunner-game\subway_hagar\images\menu_background.jpg")).convert()
-        pygame_icon = pygame.image.load(r'C:\Users\Adame\Documents\GitHub\autorunner-game\subway_hagar\images\icon.jpg')
+        self.menu_sound = pygame.mixer.Sound(r'C:\Users\Adame\OneDrive\Documents\GitHub\autorunner-game\subway_hagar\drillfr4.mp3')
+        self.menu_background = pygame.image.load(os.path.join(r"C:\Users\Adame\OneDrive\Documents\GitHub\autorunner-game\subway_hagar\images\menu_background.jpg")).convert()
+        pygame_icon = pygame.image.load(r'C:\Users\Adame\OneDrive\Documents\GitHub\autorunner-game\subway_hagar\images\icon.jpg')
         pygame.display.set_icon(pygame_icon)
         pygame.display.set_caption("Subway hagar")
         #couleur
@@ -26,9 +26,8 @@ class GameParameters:
         self.all_sprites = pygame.sprite.Group()
         self.obstacles_group = pygame.sprite.Group()
         self.coins_group = pygame.sprite.Group()
-
-        # Ajout du joueur au groupe de sprites
-        self.player = Player(self.all_sprites)
+        
+        self.player = Player(200,100)
         self.all_sprites.add(self.player)
 
         # Variables pour le score et les statistiques
@@ -61,15 +60,18 @@ class GameParameters:
 
     def start_game(self):
         pygame.init()
-
+        
+        
         while True:
-            for event in pygame.event.get():
+            event_list = pygame.event.get()
+            for event in event_list:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+            dt = self.clock.tick(self.FPS)
 
             # Mise à jour des sprites
-            self.all_sprites.update()
+            self.all_sprites.update(dt)
 
             # Gestion des collisions avec les obstacles
             obstacles_collected = pygame.sprite.spritecollide(self.player, self.obstacles_group, False)
@@ -133,9 +135,14 @@ class GameParameters:
             self.screen.blit(blue_coins_text, (self.width - 200, 100))
             self.screen.blit(blue_obstacles_text, (self.width - 270, 140))
             self.screen.blit(blue_coins_owned_text, (self.width - 250, 180))
+            self.player.réagir(event_list)
 
+            
+            self.player.update(dt)
+            self.player.draw(self.screen)
             pygame.display.flip()
-            self.clock.tick(self.FPS)
+            
+            
             
             
     def show_menu(self):
