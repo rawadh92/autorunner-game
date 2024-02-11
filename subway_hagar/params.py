@@ -267,7 +267,7 @@ class GameParameters:
         self.coins_group.empty()
 
         # Réinitialiser le joueur
-        self.player = Player(self.all_sprites)
+        self.player = Player(200, 100)
         self.all_sprites.add(self.player)
         
         
