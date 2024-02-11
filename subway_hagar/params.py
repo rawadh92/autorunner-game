@@ -70,8 +70,7 @@ class GameParameters:
                     sys.exit()
             dt = self.clock.tick(self.FPS)
 
-            # Mise à jour des sprites
-            self.all_sprites.update(dt)
+
 
             # Gestion des collisions avec les obstacles
             obstacles_collected = pygame.sprite.spritecollide(self.player, self.obstacles_group, False)
@@ -137,8 +136,9 @@ class GameParameters:
             self.screen.blit(blue_coins_owned_text, (self.width - 250, 180))
             self.player.réagir(event_list)
 
-            
-            self.player.update(dt)
+            # Mise à jour des sprites
+            self.all_sprites.update()
+            self.player.updat(dt)
             self.player.draw(self.screen)
             pygame.display.flip()
             

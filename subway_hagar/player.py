@@ -93,7 +93,7 @@ class Player(pygame.sprite.Sprite):
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y), self._frame.rect)
 
-    def update(self, dt):
+    def updat(self, dt):
         self._frame.update(dt)
         dt_sec = dt / 1000
         self.x += self.vx * dt_sec
