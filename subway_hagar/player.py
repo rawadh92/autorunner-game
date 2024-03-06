@@ -80,15 +80,15 @@ class Player(pygame.sprite.Sprite):
             }
         }
 
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
         self.état = "STATIQUE"
         self.orientation = "GAUCHE"
         self._frame = self._frames[self.état][self.orientation]
+        self.rect = self.image.get_rect(topleft=(x, y))
         self.x = x
         self.y = y
         self.vx = 0
         self.vy = 0
+        self.rect = self.rect.inflate(-75, -75)
 
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y), self._frame.rect)
@@ -110,7 +110,6 @@ class Player(pygame.sprite.Sprite):
                     self.vy += 70
                 elif événement.key == K_UP:
                     self.vy -= 70
-
                 self._mettre_à_jour_frame()
 
             elif événement.type == KEYUP:
@@ -122,7 +121,6 @@ class Player(pygame.sprite.Sprite):
                     self.vy -= 70
                 elif événement.key == K_UP:
                     self.vy += 70
-
                 self._mettre_à_jour_frame()
 
     def _mettre_à_jour_frame(self):
