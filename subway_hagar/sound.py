@@ -1,5 +1,3 @@
-# Music de jeux ,menu et effet sonore
-# Music de jeux ,menu et effet sonore
 import pygame
 import os
 
