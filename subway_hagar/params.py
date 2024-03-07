@@ -13,19 +13,21 @@ class GameParameters:
         self.width, self.height = 800, 600
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
-        self.FPS = 60                                             # Faut changer le path pour que ça marche (pour vous)
-        self.menu_sound = pygame.mixer.Sound('C:/Users/Adame/Documents/GitHub/autorunner-game/subway_hagar/drillfr4.mp3')
-        self.menu_background = pygame.image.load(os.path.join("C:/Users/Adame/Documents/GitHub/autorunner-game/subway_hagar/images/menu_background.jpg")).convert()
-        # Couleurs
+        self.FPS = 60                                            # Faut changer le path pour que ça marche (pour vous)
+        self.menu_sound = pygame.mixer.Sound(r'C:\Users\Adame\OneDrive\Documents\GitHub\autorunner-game\subway_hagar\drillfr4.mp3')
+        self.menu_background = pygame.image.load(os.path.join(r"C:\Users\Adame\OneDrive\Documents\GitHub\autorunner-game\subway_hagar\images\menu_background.jpg")).convert()
+        pygame_icon = pygame.image.load(r'C:\Users\Adame\OneDrive\Documents\GitHub\autorunner-game\subway_hagar\images\icon.jpg')
+        pygame.display.set_icon(pygame_icon)
+        pygame.display.set_caption("Subway hagar")
+        #couleur
         self.white = (255, 255, 255)
 
         # Groupe de sprites
         self.all_sprites = pygame.sprite.Group()
         self.obstacles_group = pygame.sprite.Group()
         self.coins_group = pygame.sprite.Group()
-
-        # Ajout du joueur au groupe de sprites
-        self.player = Player(self.all_sprites)
+        
+        self.player = Player(200,100)
         self.all_sprites.add(self.player)
 
         # Variables pour le score et les statistiques
@@ -58,15 +60,17 @@ class GameParameters:
 
     def start_game(self):
         pygame.init()
-
+        
+        
         while True:
-            for event in pygame.event.get():
+            event_list = pygame.event.get()
+            for event in event_list:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+            dt = self.clock.tick(self.FPS)
 
-            # Mise à jour des sprites
-            self.all_sprites.update()
+
 
             # Gestion des collisions avec les obstacles
             obstacles_collected = pygame.sprite.spritecollide(self.player, self.obstacles_group, False)
@@ -130,9 +134,15 @@ class GameParameters:
             self.screen.blit(blue_coins_text, (self.width - 200, 100))
             self.screen.blit(blue_obstacles_text, (self.width - 270, 140))
             self.screen.blit(blue_coins_owned_text, (self.width - 250, 180))
+            self.player.réagir(event_list)
 
+            # Mise à jour des sprites
+            self.all_sprites.update()
+            self.player.updat(dt)
+            self.player.draw(self.screen)
             pygame.display.flip()
-            self.clock.tick(self.FPS)
+            
+            
             
             
     def show_menu(self):
@@ -257,44 +267,44 @@ class GameParameters:
         self.coins_group.empty()
 
         # Réinitialiser le joueur
-        self.player = Player(self.all_sprites)
+        self.player = Player(200, 100)
         self.all_sprites.add(self.player)
         
         
     def show_settings(self):
-        settings_screen = True
-
-        while settings_screen:
+        while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
-        # Afficher l'écran des paramètres
-        self.screen.fill((0, 0, 0))
-        font = pygame.font.Font(None, 36)
+            self.screen.fill((0, 0, 0))
+            font = pygame.font.Font(None, 36)
+            title_text = font.render("Paramètres", True, (255, 255, 255))
+            self.screen.blit(title_text, (self.width/2 - title_text.get_width()/2, 100))
 
-        title_text = font.render("Paramètres", True, (255, 255, 255))
-        self.screen.blit(title_text, (self.width/2 - title_text.get_width()/2, 50))
+            width_text = font.render("Largeur : " + str(self.width), True, (255, 255, 255))
+            width_rect = width_text.get_rect(center=(self.width/2, 200))
+            self.screen.blit(width_text, width_rect)
 
-        # Ajouter des options de paramètres ici
-        option_text = font.render("Option 1: Valeur 1", True, (255, 255, 255))
-        self.screen.blit(option_text, (self.width/2 - option_text.get_width()/2, 150))
+            height_text = font.render("Hauteur : " + str(self.height), True, (255, 255, 255))
+            height_rect = height_text.get_rect(center=(self.width/2, 250))
+            self.screen.blit(height_text, height_rect)
 
-        option2_text = font.render("Option 2: Valeur 2", True, (255, 255, 255))
-        self.screen.blit(option2_text, (self.width/2 - option2_text.get_width()/2, 200))
+            fps_text = font.render("FPS : " + str(self.FPS), True, (255, 255, 255))
+            fps_rect = fps_text.get_rect(center=(self.width/2, 300))
+            self.screen.blit(fps_text, fps_rect)
 
-        # ... Ajoutez d'autres options de paramètres
+            quit_text = font.render("Retour", True, (255, 255, 0))
+            quit_rect = quit_text.get_rect(center=(self.width/5, 100))
+            self.screen.blit(quit_text, quit_rect)
 
-        back_text = font.render("Retour", True, (255, 0, 0))
-        back_rect = back_text.get_rect(center=(self.width/2, 300))
-        self.screen.blit(back_text, back_rect)
+            mx, my = pygame.mouse.get_pos()
 
-        mx, my = pygame.mouse.get_pos()
+            if quit_rect.collidepoint((mx, my)):
+                if pygame.mouse.get_pressed()[0] == 1:
+                    return
 
-        if back_rect.collidepoint((mx, my)):
-            if pygame.mouse.get_pressed()[0] == 1:
-                settings_screen = False
+            pygame.display.update()
 
-        pygame.display.update()
-    
+        
