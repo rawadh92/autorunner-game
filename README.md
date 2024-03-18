@@ -44,7 +44,7 @@ https://github.com/AdamZouhairii/autorunner-game/blob/8d4ae2d6ee9ff10166305e4794
 
 
 ## Credits
-- Game developed by [Adam Zouhairi]
+- Game developed by [Rawad Hammoude]
 
 ## Work parts
 ### ADAM
