@@ -55,7 +55,7 @@ https://github.com/AdamZouhairii/autorunner-game/blob/8d4ae2d6ee9ff10166305e4794
 - obstacle.py
 and a part of params.py
 ### RAWAD
-part of sound.py
-params.py and a part of obstacle.py
-part of player.py
-part of bonus.py
+- part of sound.py
+- params.py and a part of obstacle.py
+- part of player.py
+- part of bonus.py
